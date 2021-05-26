@@ -55,7 +55,7 @@ public class ClassifierFloatEfficientNet extends Classifier {
 
   @Override
   protected String getLabelPath() {
-    return "labels_without_background.txt";
+    return "labels.txt";
   }
 
   @Override

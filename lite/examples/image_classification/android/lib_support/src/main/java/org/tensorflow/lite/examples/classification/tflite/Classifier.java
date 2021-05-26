@@ -33,7 +33,7 @@ import java.util.PriorityQueue;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.examples.classification.tflite.Classifier.Device;
-import org.tensorflow.lite.gpu.GpuDelegate;
+//import org.tensorflow.lite.gpu.GpuDelegate;
 import org.tensorflow.lite.nnapi.NnApiDelegate;
 import org.tensorflow.lite.support.common.FileUtil;
 import org.tensorflow.lite.support.common.TensorOperator;
@@ -78,7 +78,7 @@ public abstract class Classifier {
   private final int imageSizeY;
 
   /** Optional GPU delegate for accleration. */
-  private GpuDelegate gpuDelegate = null;
+  //private GpuDelegate gpuDelegate = null;
 
   /** Optional NNAPI delegate for accleration. */
   private NnApiDelegate nnApiDelegate = null;
@@ -203,10 +203,10 @@ public abstract class Classifier {
         nnApiDelegate = new NnApiDelegate();
         tfliteOptions.addDelegate(nnApiDelegate);
         break;
-      case GPU:
-        gpuDelegate = new GpuDelegate();
-        tfliteOptions.addDelegate(gpuDelegate);
-        break;
+     // case GPU:
+      //  gpuDelegate = new GpuDelegate();
+      //  tfliteOptions.addDelegate(gpuDelegate);
+     //   break;
       case CPU:
         tfliteOptions.setUseXNNPACK(true);
         break;
@@ -220,6 +220,7 @@ public abstract class Classifier {
     // Reads type and shape of input and output tensors, respectively.
     int imageTensorIndex = 0;
     int[] imageShape = tflite.getInputTensor(imageTensorIndex).shape(); // {1, height, width, 3}
+    Log.v(TAG, "image size: " + imageShape);
     imageSizeY = imageShape[1];
     imageSizeX = imageShape[2];
     DataType imageDataType = tflite.getInputTensor(imageTensorIndex).dataType();
@@ -230,6 +231,7 @@ public abstract class Classifier {
 
     // Creates the input tensor.
     inputImageBuffer = new TensorImage(imageDataType);
+
 
     // Creates the output tensor and its processor.
     outputProbabilityBuffer = TensorBuffer.createFixedSize(probabilityShape, probabilityDataType);
@@ -276,10 +278,10 @@ public abstract class Classifier {
       tflite.close();
       tflite = null;
     }
-    if (gpuDelegate != null) {
-      gpuDelegate.close();
-      gpuDelegate = null;
-    }
+    //if (gpuDelegate != null) {
+     // gpuDelegate.close();
+     // gpuDelegate = null;
+   // }
     if (nnApiDelegate != null) {
       nnApiDelegate.close();
       nnApiDelegate = null;

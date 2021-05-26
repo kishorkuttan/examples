@@ -154,7 +154,7 @@ public class ClassifierActivity extends CameraActivity implements OnImageAvailab
       return;
     }
 
-    // Updates the input image size.
+    // Updates the input image   java.lang.IllegalArgumentException: Cannot copy to a TensorFlowLite tensor (serving_default_input:0) with 9633792 bytes from a Java Buffer with 576 bytes..
     imageSizeX = classifier.getImageSizeX();
     imageSizeY = classifier.getImageSizeY();
   }
